@@ -4,14 +4,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
 import com.multicampus.biz.user.UserDAO;
 import com.multicampus.biz.user.UserVO;
-import com.multicampus.view.controller.Controller;
 
 public class LoginController implements Controller {
 
 	@Override
-	public String handleRequest(HttpServletRequest request, 
+	public ModelAndView handleRequest(HttpServletRequest request, 
 			                    HttpServletResponse response) {
 		System.out.println("로그인 기능 처리");
 		
@@ -28,6 +30,7 @@ public class LoginController implements Controller {
 		UserVO user = userDAO.getUser(vo);
 		
 		// 3. 화면 네비게이션
+		ModelAndView mav = new ModelAndView();
 		if(user != null) {
 			HttpSession session = request.getSession();
 			// 세션의 유효시간 설정
@@ -37,10 +40,11 @@ public class LoginController implements Controller {
 			session.setAttribute("userId", user.getId());
 			session.setAttribute("userName", user.getName());
 			session.setAttribute("userRole", user.getRole());
-			return "getBoardList.do";
+			mav.setViewName("getBoardList.do");
 		} else {
-			return "login.html";
+			mav.setViewName("login.html");
 		}
+		return mav;
 	}
 
 }

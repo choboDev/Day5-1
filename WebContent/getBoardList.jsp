@@ -39,6 +39,7 @@
 	<th bgcolor="orange" width="100">조회수</th>
 </tr>
 
+<font color="red">${boardCount }</font> 건 검색 되었습니다.
 <c:forEach var="board" items="${boardList }">
 <tr>
 	<td>${board.seq }</td>

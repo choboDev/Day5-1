@@ -6,14 +6,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
 import com.multicampus.biz.board.BoardDAO;
 import com.multicampus.biz.board.BoardVO;
-import com.multicampus.view.controller.Controller;
 
 public class GetBoardListController implements Controller {
 
 	@Override
-	public String handleRequest(HttpServletRequest request, 
+	public ModelAndView handleRequest(HttpServletRequest request, 
 			                    HttpServletResponse response) {
 		System.out.println("글 목록 검색 기능 처리");
 		
@@ -32,11 +34,17 @@ public class GetBoardListController implements Controller {
 		BoardDAO boardDAO = new BoardDAO();
 		List<BoardVO> boardList = boardDAO.getBoardList(vo);
 		
-		// 3. 검색 결과를 세션에 저장하고 JSP 화면으로 이동한다.
-		HttpSession session = request.getSession();
-		session.setAttribute("boardList", boardList);
+//		// 3. 검색 결과를 세션에 저장하고 JSP 화면으로 이동한다.
+//		HttpSession session = request.getSession();
+//		session.setAttribute("boardList", boardList);		
+//		return "getBoardList.jsp";
 		
-		return "getBoardList.jsp";
+		// 3. 검색 결과와 View 정보를 ModelAndView에 저장하여 리턴한다.
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("boardList", boardList);
+		mav.addObject("boardCount", boardList.size());
+		mav.setViewName("getBoardList.jsp");
+		return mav;
 	}
 
 }

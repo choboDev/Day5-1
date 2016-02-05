@@ -3,14 +3,16 @@ package com.multicampus.view.user;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
 import com.multicampus.biz.user.UserDAO;
 import com.multicampus.biz.user.UserVO;
-import com.multicampus.view.controller.Controller;
 
 public class InsertUserController implements Controller {
 
 	@Override
-	public String handleRequest(HttpServletRequest request, 
+	public ModelAndView handleRequest(HttpServletRequest request, 
 			                    HttpServletResponse response) {
 		System.out.println("회원 가입 기능 처리");
 		
@@ -31,7 +33,9 @@ public class InsertUserController implements Controller {
 		userDAO.insertUser(vo);
 		
 		// 3. 화면 네비게이션
-		return "login.html";
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("login.html");
+		return mav;
 	}
 
 }
